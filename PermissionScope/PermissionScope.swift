@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import CoreLocation
+//import CoreLocation
 import AddressBook
 import AVFoundation
 import Photos
 import EventKit
-import CoreBluetooth
-import CoreMotion
+//import CoreBluetooth
+//import CoreMotion
 import Contacts
 
 public typealias statusRequestClosure = (status: PermissionStatus) -> Void
@@ -21,7 +21,7 @@ public typealias authClosureType      = (finished: Bool, results: [PermissionRes
 public typealias cancelClosureType    = (results: [PermissionResult]) -> Void
 typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
 
-@objc public class PermissionScope: UIViewController, CLLocationManagerDelegate, UIGestureRecognizerDelegate, CBPeripheralManagerDelegate {
+@objc public class PermissionScope: UIViewController, /*CLLocationManagerDelegate,*/ UIGestureRecognizerDelegate/*, CBPeripheralManagerDelegate */ {
 
     // MARK: UI Parameters
     
@@ -61,12 +61,14 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     public let contentView = UIView()
 
     // MARK: - Various lazy managers
+/*
     lazy var locationManager:CLLocationManager = {
         let lm = CLLocationManager()
         lm.delegate = self
         return lm
     }()
-
+*/
+    /*
     lazy var bluetoothManager:CBPeripheralManager = {
         return CBPeripheralManager(delegate: self, queue: nil, options:[CBPeripheralManagerOptionShowPowerAlertKey: false])
     }()
@@ -74,6 +76,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     lazy var motionManager:CMMotionActivityManager = {
         return CMMotionActivityManager()
     }()
+    */
     
     /// NSUserDefaults standardDefaults lazy var
     lazy var defaults:NSUserDefaults = {
@@ -199,8 +202,9 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         closeButton.accessibilityIdentifier = "permissionscope.closeButton"
         
         contentView.addSubview(closeButton)
-        
+/*
         self.statusMotion() //Added to check motion status on load
+ */
     }
     
     /**
@@ -306,12 +310,13 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         
         configuredPermissions.append(permission)
         permissionMessages[permission.type] = message
-        
+/*
         if permission.type == .Bluetooth && askedBluetooth {
             triggerBluetoothStatusUpdate()
         } else if permission.type == .Motion && askedMotion {
             triggerMotionStatusUpdate()
         }
+*/
     }
 
     /**
@@ -332,8 +337,10 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
 
         // this is a bit of a mess, eh?
         switch type {
+/*
         case .LocationAlways, .LocationInUse:
             button.setTitle("Enable \(type.prettyDescription)".localized.uppercaseString, forState: .Normal)
+*/
         default:
             button.setTitle("Allow \(type)".localized.uppercaseString, forState: .Normal)
         }
@@ -394,6 +401,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - returns: Permission status for the requested type.
     */
+/*
     public func statusLocationAlways() -> PermissionStatus {
         guard CLLocationManager.locationServicesEnabled() else { return .Disabled }
 
@@ -415,10 +423,11 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             return .Unknown
         }
     }
-
+*/
     /**
     Requests access to LocationAlways, if necessary.
     */
+/*
     public func requestLocationAlways() {
     	let hasAlwaysKey:Bool = !NSBundle.mainBundle()
     		.objectForInfoDictionaryKey(Constants.InfoPlistKeys.locationAlways).isNil
@@ -440,12 +449,13 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
-
+*/
     /**
     Returns the current permission status for accessing LocationWhileInUse.
     
     - returns: Permission status for the requested type.
     */
+/*
     public func statusLocationInUse() -> PermissionStatus {
         guard CLLocationManager.locationServicesEnabled() else { return .Disabled }
         
@@ -461,10 +471,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             return .Unknown
         }
     }
+ */
 
     /**
     Requests access to LocationWhileInUse, if necessary.
     */
+/*
     public func requestLocationInUse() {
     	let hasWhenInUseKey :Bool = !NSBundle.mainBundle()
     		.objectForInfoDictionaryKey(Constants.InfoPlistKeys.locationWhenInUse).isNil
@@ -482,7 +494,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
-
+*/
     // MARK: Contacts
     
     /**
@@ -775,6 +787,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - returns: Permission status for the requested type.
     */
+/*
     public func statusReminders() -> PermissionStatus {
         let status = EKEventStore.authorizationStatusForEntityType(.Reminder)
         switch status {
@@ -786,10 +799,11 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             return .Unknown
         }
     }
-    
+*/
     /**
     Requests access to Reminders, if necessary.
     */
+/*
     public func requestReminders() {
         let status = statusReminders()
         switch status {
@@ -804,6 +818,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
+ */
     
     // MARK: Events
     
@@ -812,6 +827,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - returns: Permission status for the requested type.
     */
+/*
     public func statusEvents() -> PermissionStatus {
         let status = EKEventStore.authorizationStatusForEntityType(.Event)
         switch status {
@@ -823,10 +839,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             return .Unknown
         }
     }
+*/
     
     /**
     Requests access to Events, if necessary.
     */
+/*
     public func requestEvents() {
         let status = statusEvents()
         switch status {
@@ -841,10 +859,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
+*/
     
     // MARK: Bluetooth
     
     /// Returns whether Bluetooth access was asked before or not.
+/*
     private var askedBluetooth:Bool {
         get {
             return defaults.boolForKey(Constants.NSUserDefaultsKeys.requestedBluetooth)
@@ -854,6 +874,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             defaults.synchronize()
         }
     }
+ */
     
     /// Returns whether PermissionScope is waiting for the user to enable/disable bluetooth access or not.
     private var waitingForBluetooth = false
@@ -863,6 +884,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - returns: Permission status for the requested type.
     */
+/*
     public func statusBluetooth() -> PermissionStatus {
         // if already asked for bluetooth before, do a request to get status, else wait for user to request
         if askedBluetooth{
@@ -884,10 +906,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         }
         
     }
+ */
     
     /**
     Requests access to Bluetooth, if necessary.
     */
+/*
     public func requestBluetooth() {
         let status = statusBluetooth()
         switch status {
@@ -902,11 +926,13 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         }
         
     }
+ */
     
     /**
     Start and immediately stop bluetooth advertising to trigger
     its permission dialog.
     */
+/*
     private func triggerBluetoothStatusUpdate() {
         if !waitingForBluetooth && bluetoothManager.state == .Unknown {
             bluetoothManager.startAdvertising(nil)
@@ -915,6 +941,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             waitingForBluetooth = true
         }
     }
+ */
     
     // MARK: Core Motion Activity
     
@@ -923,16 +950,19 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - returns: Permission status for the requested type.
     */
+/*
     public func statusMotion() -> PermissionStatus {
         if askedMotion {
             triggerMotionStatusUpdate()
         }
         return motionPermissionStatus
     }
+ */
     
     /**
     Requests access to Core Motion Activity, if necessary.
     */
+/*
     public func requestMotion() {
         let status = statusMotion()
         switch status {
@@ -944,10 +974,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
+*/
     
     /**
     Prompts motionManager to request a status update. If permission is not already granted the user will be prompted with the system's permission dialog.
     */
+/*
     private func triggerMotionStatusUpdate() {
         let tmpMotionPermissionStatus = motionPermissionStatus
         defaults.setBool(true, forKey: Constants.NSUserDefaultsKeys.requestedMotion)
@@ -973,8 +1005,10 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         askedMotion = true
         waitingForMotion = true
     }
-    
+*/
+ 
     /// Returns whether Bluetooth access was asked before or not.
+/*
     private var askedMotion:Bool {
         get {
             return defaults.boolForKey(Constants.NSUserDefaultsKeys.requestedMotion)
@@ -984,6 +1018,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             defaults.synchronize()
         }
     }
+*/
     
     /// Returns whether PermissionScope is waiting for the user to enable/disable motion access or not.
     private var waitingForMotion = false
@@ -1102,18 +1137,20 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     }
 
     // MARK: Location delegate
-    
+/*
     public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         detectAndCallback()
     }
+*/
     
     // MARK: Bluetooth delegate
-    
+/*
     public func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager) {
         waitingForBluetooth = false
         detectAndCallback()
     }
-
+*/
+    
     // MARK: - UI Helpers
     
     /**
@@ -1221,10 +1258,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         // Get permission status
         let permissionStatus: PermissionStatus
         switch type {
+/*
         case .LocationAlways:
-            permissionStatus = statusLocationAlways()
+          permissionStatus = statusLocationAlways()
         case .LocationInUse:
             permissionStatus = statusLocationInUse()
+ */
         case .Contacts:
             permissionStatus = statusContacts()
         case .Notifications:
@@ -1235,6 +1274,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             permissionStatus = statusCamera()
         case .Photos:
             permissionStatus = statusPhotos()
+/*
         case .Reminders:
             permissionStatus = statusReminders()
         case .Events:
@@ -1243,6 +1283,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             permissionStatus = statusBluetooth()
         case .Motion:
             permissionStatus = statusMotion()
+*/ 
         }
         
         // Perform completion
