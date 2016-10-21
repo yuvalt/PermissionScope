@@ -10,12 +10,12 @@ import Foundation
 
 /// Permissions currently supportes by PermissionScope
 @objc public enum PermissionType: Int, CustomStringConvertible {
-    case Contacts, /*LocationAlways, LocationInUse, */Notifications, Microphone, Camera, Photos/*, Reminders, Events, Bluetooth, Motion */
+    case Contacts, LocationAlways, LocationInUse, Notifications, Microphone, Camera, Photos/*, Reminders, Events, Bluetooth, Motion */
     
     public var prettyDescription: String {
         switch self {
-//        case .LocationAlways, .LocationInUse:
-//            return "Location"
+        case .LocationAlways, .LocationInUse:
+            return "Location"
         default:
             return "\(self)"
         }
@@ -25,8 +25,8 @@ import Foundation
         switch self {
         case .Contacts:         return "Contacts"
 //        case .Events:           return "Events"
-//        case .LocationAlways:   return "LocationAlways"
-//        case .LocationInUse:    return "LocationInUse"
+        case .LocationAlways:   return "LocationAlways"
+        case .LocationInUse:    return "LocationInUse"
         case .Notifications:    return "Notifications"
         case .Microphone:       return "Microphone"
         case .Camera:           return "Camera"
@@ -37,7 +37,7 @@ import Foundation
         }
     }
     
-    static let allValues = [Contacts, /*LocationAlways, LocationInUse, */Notifications, Microphone, Camera, Photos/* , Reminders, Events, Bluetooth, Motion */]
+    static let allValues = [Contacts, LocationAlways, LocationInUse, Notifications, Microphone, Camera, Photos/* , Reminders, Events, Bluetooth, Motion */]
 }
 
 /// Possible statuses for a permission.

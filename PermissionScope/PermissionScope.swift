@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import CoreLocation
+import CoreLocation
 import AddressBook
 import AVFoundation
 import Photos
@@ -21,7 +21,7 @@ public typealias authClosureType      = (finished: Bool, results: [PermissionRes
 public typealias cancelClosureType    = (results: [PermissionResult]) -> Void
 typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
 
-@objc public class PermissionScope: UIViewController, /*CLLocationManagerDelegate,*/ UIGestureRecognizerDelegate/*, CBPeripheralManagerDelegate */ {
+@objc public class PermissionScope: UIViewController, CLLocationManagerDelegate, UIGestureRecognizerDelegate/*, CBPeripheralManagerDelegate */ {
 
     // MARK: UI Parameters
     
@@ -61,13 +61,13 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     public let contentView = UIView()
 
     // MARK: - Various lazy managers
-/*
+
     lazy var locationManager:CLLocationManager = {
         let lm = CLLocationManager()
         lm.delegate = self
         return lm
     }()
-*/
+
     /*
     lazy var bluetoothManager:CBPeripheralManager = {
         return CBPeripheralManager(delegate: self, queue: nil, options:[CBPeripheralManagerOptionShowPowerAlertKey: false])
@@ -337,10 +337,8 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
 
         // this is a bit of a mess, eh?
         switch type {
-/*
         case .LocationAlways, .LocationInUse:
             button.setTitle("Enable \(type.prettyDescription)".localized.uppercaseString, forState: .Normal)
-*/
         default:
             button.setTitle("Allow \(type)".localized.uppercaseString, forState: .Normal)
         }
@@ -401,7 +399,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     
     - returns: Permission status for the requested type.
     */
-/*
+
     public func statusLocationAlways() -> PermissionStatus {
         guard CLLocationManager.locationServicesEnabled() else { return .Disabled }
 
@@ -423,11 +421,11 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             return .Unknown
         }
     }
-*/
+
     /**
     Requests access to LocationAlways, if necessary.
     */
-/*
+
     public func requestLocationAlways() {
     	let hasAlwaysKey:Bool = !NSBundle.mainBundle()
     		.objectForInfoDictionaryKey(Constants.InfoPlistKeys.locationAlways).isNil
@@ -449,13 +447,13 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
-*/
+
     /**
     Returns the current permission status for accessing LocationWhileInUse.
     
     - returns: Permission status for the requested type.
     */
-/*
+
     public func statusLocationInUse() -> PermissionStatus {
         guard CLLocationManager.locationServicesEnabled() else { return .Disabled }
         
@@ -471,12 +469,12 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             return .Unknown
         }
     }
- */
+ 
 
     /**
     Requests access to LocationWhileInUse, if necessary.
     */
-/*
+
     public func requestLocationInUse() {
     	let hasWhenInUseKey :Bool = !NSBundle.mainBundle()
     		.objectForInfoDictionaryKey(Constants.InfoPlistKeys.locationWhenInUse).isNil
@@ -494,7 +492,7 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
             break
         }
     }
-*/
+
     // MARK: Contacts
     
     /**
@@ -1137,11 +1135,10 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
     }
 
     // MARK: Location delegate
-/*
+
     public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         detectAndCallback()
     }
-*/
     
     // MARK: Bluetooth delegate
 /*
@@ -1258,12 +1255,10 @@ typealias resultsForConfigClosure     = ([PermissionResult]) -> Void
         // Get permission status
         let permissionStatus: PermissionStatus
         switch type {
-/*
         case .LocationAlways:
           permissionStatus = statusLocationAlways()
         case .LocationInUse:
             permissionStatus = statusLocationInUse()
- */
         case .Contacts:
             permissionStatus = statusContacts()
         case .Notifications:
